@@ -3,9 +3,9 @@ import { AddPostForm } from "../features/posts/AddPostForm";
 
 export const Home = () => {
   return (
-    <main>
+    <section>
       <AddPostForm />
       <PostsList />
-    </main>
+    </section>
   );
 };
