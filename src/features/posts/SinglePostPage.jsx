@@ -2,6 +2,8 @@ import { useSelector } from "react-redux"
 import { useMatch } from 'react-router-dom'
 import { Link } from "react-router-dom"
 import { allPosts } from "./postsSlice"
+import PostAuthor from "./PostAuthor"
+import TimeAgo from "./TimeAgo";
 
 export const SinglePostPage = () => {
   //get the id from matched url from router (useMatch)
@@ -25,6 +27,8 @@ export const SinglePostPage = () => {
       <article className="single__post mb-8">
         <h2 className="font-bold">{post.title}</h2>
         <p>{post.content}</p>
+        <span>Created: <TimeAgo timestamp={post.date}/></span>
+        <p>Author: <PostAuthor userId={post.user}/></p>
         <Link to={`/editPost/${post.id}`} className="font-bold underline">Edit Post</Link>
       </article>
       <Link to="/" className="text-white border border-white p-2 rounded font-bold">Go back to home</Link>
