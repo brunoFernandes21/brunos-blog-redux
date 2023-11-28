@@ -16,16 +16,35 @@ body {
     rgba(14, 8, 200, 1) 0%,
     rgba(0, 0, 0, 1) 97%
   );
+  min-height: 100vh;
 }
 
 .app {
   width: 90vw;
-  max-width: 1120px;
+  /* max-width: 1120px; */
   margin: 60px auto;
 }
 
-.post__section {
-  margin-top: 20px;
+.home {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 30px;
+}
+
+/* mobile layout */
+
+/* mobile layout */
+
+@media only screen and (max-width: 900px) {
+  .home {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0px;
+  }
+  .form__section {
+    order: -1;
+    margin-bottom: 40px;
+  }
 }
 .single__post {
   /* background: #fff; */
@@ -39,12 +58,11 @@ body {
 }
 
 .form__section {
-  color: white;
   padding: 10px;
   border: 1px solid white;
   border-radius: 8px;
-  margin-bottom: 50px;
   box-shadow: 2px 2px 3px #b2b2b2;
+  height: 450px;
 }
 form {
   margin-top: 20px;

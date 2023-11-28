@@ -40,9 +40,9 @@ export const AddPostForm = () => {
     <option key={user.id} value={user.id}>{user.name}</option>
   ));
   return (
-    <section className="form__section mx-auto lg:w-[50%]">
+    <section className="form__section bg-white text-slate-900">
       <h3 className="text-xl font-bold">Add a New Post</h3>
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} className="">
         <div>
           <label htmlFor="title">Title</label>
           <input
@@ -62,17 +62,17 @@ export const AddPostForm = () => {
             onChange={handleChange}
           ></textarea>
         </div>
-        <div className="w-2/5">
+        <div className="w-[230px]">
           <label htmlFor="postAuthor">Author</label>
           <select name="userId" id="postAuthor" value={formData.userId} onChange={handleChange}>
-            <option value="">--Please choose an author--</option>
+            <option value="">--Choose an author--</option>
             {userOptions}
           </select>
         </div>
         <button
           disabled={!formIsValid}
           className={`${
-            formIsValid ? "text-blue-600 bg-white" : "bg-gray-300"
+            formIsValid ? "text-white bg-blue-600" : "bg-gray-300"
           }`}
         >
           Add Post
