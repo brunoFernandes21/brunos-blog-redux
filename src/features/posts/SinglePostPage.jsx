@@ -4,6 +4,7 @@ import { Link } from "react-router-dom"
 import { allPosts } from "./postsSlice"
 import PostAuthor from "./PostAuthor"
 import TimeAgo from "./TimeAgo";
+import ReactionButtons from "./ReactionButtons"
 
 export const SinglePostPage = () => {
   //get the id from matched url from router (useMatch)
@@ -30,6 +31,7 @@ export const SinglePostPage = () => {
         <span>Created: <TimeAgo timestamp={post.date}/></span>
         <p>Author: <PostAuthor userId={post.user}/></p>
         <Link to={`/editPost/${post.id}`} className="font-bold underline">Edit Post</Link>
+        <ReactionButtons post={post}/>
       </article>
       <Link to="/" className="text-white border border-white p-2 rounded font-bold">Go back to home</Link>
     </section>
