@@ -47,27 +47,28 @@ export const AddPostForm = () => {
           <label htmlFor="title">Title</label>
           <input
             type="text"
+            id="title"
             name="title"
             value={formData.title}
             onChange={handleChange}
-            placeholder="post title..."
+            placeholder="What's on your mind?"
           />
+        </div>
+        <div>
+          <label htmlFor="postAuthor">Author</label>
+          <select name="userId" id="postAuthor" value={formData.userId} onChange={handleChange}>
+            <option value=""></option>
+            {userOptions}
+          </select>
         </div>
         <div>
           <label htmlFor="content">Content</label>
           <textarea
+          id="content"
             name="content"
             value={formData.content}
-            placeholder="post content..."
             onChange={handleChange}
           ></textarea>
-        </div>
-        <div className="w-[230px]">
-          <label htmlFor="postAuthor">Author</label>
-          <select name="userId" id="postAuthor" value={formData.userId} onChange={handleChange}>
-            <option value="">--Choose an author--</option>
-            {userOptions}
-          </select>
         </div>
         <button
           disabled={!formIsValid}

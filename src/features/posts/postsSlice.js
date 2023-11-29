@@ -4,7 +4,7 @@ import { sub } from 'date-fns'
 
 const initialState = [
   { id: "1", title: "First Post!", content: "Assuming we do have the right post object in the store, useSelector will return that, and we can use it to render the title and content of the post in the page.", date: sub(new Date(), { minutes: 10 }).toISOString(), reactions: {thumbsUp: 0, hooray: 0, heart: 0, rocket: 0, eyes: 0} },
-  { id: "2", title: "Second Post", content: "Currently, our post entries are being shown in the main feed page, but if the text is too long, we only show an excerpt of the content. It would be helpful to have the ability to view a single post entry on its own page.", date: sub(new Date(), { minutes: 5 }).toISOString(), reactions: {thumbsUp: 0, hooray: 0, heart: 0, rocket: 0, eyes: 0}},
+  { id: "2", title: "Second Post", content: "Currently, our post entries are being shown in the main feed page, but if the text is too long, we only show an excerpt of the content. It would be helpful to have the ability to view a single post entry on its own page.", date: sub(new Date(), { minutes: 5 }).toISOString(), reactions: {thumbsUp: 0, thumbsDown: 0, heart: 0, party: 0, cool: 0} },
 ];
 
 const postsSlice = createSlice ({
@@ -35,7 +35,7 @@ const postsSlice = createSlice ({
               title,
               content,
               user:   userId,
-              reactions: {thumbsUp: 0, hooray: 0, heart: 0, rocket: 0, eyes: 0}
+              reactions: { thumbsUp: 0, thumbsDown: 0, heart: 0, party: 0, cool: 0 }
             }
           }
         }

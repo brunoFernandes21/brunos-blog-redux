@@ -43,7 +43,7 @@ export const EditPostForm = () => {
   const formIsValid = Boolean(formData.title) && Boolean(formData.content)
 
   return (
-    <section className="form__section mx-auto lg:w-[50%]">
+    <section className="p-4 rounded mx-auto lg:w-[50%] bg-white text-slate-900">
       <h3 className="text-xl font-bold">Add a New Post</h3>
       <form onSubmit={updatePost}>
         <div>
@@ -67,8 +67,8 @@ export const EditPostForm = () => {
         </div>
         <button
           disabled={!formIsValid}
-          className={`${
-            formIsValid ? "text-blue-600 bg-white" : "bg-gray-300"
+          className={`py-3 px-5 font-bold rounded-md ${
+            formIsValid ? "text-white bg-blue-600" : "bg-gray-300"
           }`}
         >
           Add Post

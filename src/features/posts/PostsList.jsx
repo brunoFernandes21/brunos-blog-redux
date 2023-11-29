@@ -13,19 +13,19 @@ export const PostsList = () => {
     .sort((a, b) => b.date.localeCompare(a.date));
 
   const renderedPosts = orderedPosts.map((post) => (
-    <article key={post.id} className="single__post">
-      <h3 className="font-bold">{post.title}</h3>
-      <p>{post.content.substring(0, 100)}</p>
-      <span>
-        Created: {post.date ? <TimeAgo timestamp={post.date} /> : "Unknow Date"}
-      </span>
-      <p>
-        Author: <PostAuthor userId={post.user} />
+    <article key={post.id} className="single__post text-slate-900">
+      <h3 className="font-bold text-lg">{post.title}</h3>
+      <p className="mt-2">{post.content.substring(0, 100)}</p>
+      <p className="mt-2">
+        By: <PostAuthor userId={post.user} />
       </p>
-      <Link to={`/posts/${post.id}`} className="font-bold underline">
-        View Post
-      </Link>
-      <ReactionButtons post={post}/>
+      <p className="mt-2">
+        Created: {post.date ? <TimeAgo timestamp={post.date} /> : "Unknow Date"}
+      </p>
+      <ReactionButtons post={post} />
+      <button className="font-bold border border-slate-300 p-2 mt-2 rounded hover:bg-blue-700 hover:text-white transition-all ease-in-out duration-500">
+        <Link to={`/posts/${post.id}`}>View Post</Link>
+      </button>
     </article>
   ));
 

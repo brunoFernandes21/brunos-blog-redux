@@ -47,8 +47,7 @@ body {
   }
 }
 .single__post {
-  /* background: #fff; */
-  color: white;
+  background: #fff;
   margin-top: 20px;
   border: 1px solid white;
   border-radius: 8px;
@@ -78,14 +77,14 @@ input, textarea, select {
   margin-top: 10px;
   margin-bottom: 20px;
   width: 100%;
-  border: 1px solid #858484;
-  background-color: #ece9e9;
+  border: 1px solid rgb(224, 224, 224);
+  background-color: #fff;
   border-radius: 5px;
   box-sizing: border-box;
   color: black;
 }
 
-button {
+.form__section button {
   border: 0;
   padding: 10px 20px;
   border-radius: 5px;
