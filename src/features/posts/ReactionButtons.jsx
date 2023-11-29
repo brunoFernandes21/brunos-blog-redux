@@ -1,4 +1,4 @@
-import { reactionAdded } from "./postsSlice";
+import { reactionAddedAndRemoved } from "./postsSlice";
 import { useDispatch } from "react-redux";
 
 const reactionEmoji = {
@@ -16,7 +16,7 @@ const ReactionButtons = ({ post }) => {
       <button
         key={name}
         type="button"
-        onClick={() => dispatch(reactionAdded({ postId: post.id, reaction: name }))}
+        onClick={() => dispatch(reactionAddedAndRemoved({ postId: post.id, reaction: name }))}
       >
         {emoji} {post.reactions[name]}
       </button>
