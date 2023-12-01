@@ -16,7 +16,7 @@ function App() {
         <Routes>
           <Route exact path="/" element={<Home />} />
           <Route exact path="/posts/:postId" element={<SinglePostPage />} />
-          <Route exact path="/edit-post/:postId" element={<EditPostForm/>} />
+          <Route exact path="/posts/edit-post/:postId" element={<EditPostForm/>} />
           <Route exact path="*" element={<NotFound />} />
         </Routes>
       </section>

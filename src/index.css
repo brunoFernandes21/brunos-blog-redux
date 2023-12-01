@@ -26,7 +26,6 @@ body {
   gap: 30px;
 }
 
-/* mobile layout */
 
 /* mobile layout */
 
@@ -41,15 +40,14 @@ body {
     margin-bottom: 40px;
   }
 }
-.single__post {
+/* .single__post {
   background: #fff;
-  margin-top: 20px;
-  border: 1px solid white;
   border-radius: 8px;
   padding: 20px;
   box-shadow: 2px 2px 3px #b2b2b2;
   transition: .3s all ease-in;
-}
+  margin-bottom: 20px;
+} */
 
 .form__section {
   padding: 10px;

@@ -57,7 +57,7 @@ const postsSlice = createSlice({
             id: nanoid(),
             date: new Date().toISOString(),
             title,
-            content, 
+            content,
             user: userId,
             reactions: {
               thumbsUp: 0,
@@ -116,7 +116,7 @@ const postsSlice = createSlice({
           party: 0,
           cool: 0,
         };
-        state.posts.push(action.payload)
+        state.posts.push(action.payload);
       });
   },
 });
@@ -126,4 +126,6 @@ export const { postAdded, postUpdated, reactionAddedAndRemoved } =
 export const getAllPosts = (state) => state.posts.posts;
 export const getPostStatus = (state) => state.posts.status;
 export const getPostError = (state) => state.posts.error;
+export const getPostById = (state, postId) =>
+  state.posts.posts.find((post) => post.id === postId);
 export default postsSlice.reducer;
