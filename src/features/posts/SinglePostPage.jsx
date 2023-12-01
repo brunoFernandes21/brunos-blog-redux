@@ -19,10 +19,12 @@ export const SinglePostPage = () => {
   const match = useMatch("/posts/:postId");
   const { postId } = match.params;
 
-  //find the post in state with the same id as the parameter
+  // find the post in state with the same id as the parameter
   const post = useSelector(getAllPosts).find(
     (post) => post.id === Number(postId)
   );
+
+
   const postStatus = useSelector(getPostStatus);
   const error = useSelector(getPostError);
 
@@ -49,7 +51,7 @@ export const SinglePostPage = () => {
           </p>
           <ReactionButtons post={post} />
           <button className="font-bold border border-slate-300 p-2 mt-2 rounded hover:bg-blue-700 hover:text-white transition-all ease-in-out duration-500">
-            <Link to={`/editPost/${post.id}`}>Edit Post</Link>
+            <Link to={`/edit-post/${post.id}`}>Edit Post</Link>
           </button>
         </article>
         <Link

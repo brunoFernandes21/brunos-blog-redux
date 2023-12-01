@@ -11,11 +11,20 @@ const initialState = {
   error: null,
 };
 
-
 //fetch posts using AsyncThunk
 export const fetchPosts = createAsyncThunk("posts/fetchPoss", async () => {
   try {
     const response = await axios.get(POSTS_URL);
+    return response.data;
+  } catch (error) {
+    return error.message;
+  }
+});
+
+//add new post to the api
+export const addNewPost = createAsyncThunk("post/addNewPost", async (body) => {
+  try {
+    const response = await axios.post(POSTS_URL, body);
     return response.data;
   } catch (error) {
     return error.message;
@@ -48,7 +57,7 @@ const postsSlice = createSlice({
             id: nanoid(),
             date: new Date().toISOString(),
             title,
-            content,
+            content, 
             user: userId,
             reactions: {
               thumbsUp: 0,
@@ -66,7 +75,7 @@ const postsSlice = createSlice({
       const postExists = state.posts.find((post) => post.id === id);
       if (postExists) {
         postExists.title = title;
-        postExists.content = content;
+        postExists.body = content;
       }
     },
   },
@@ -91,14 +100,24 @@ const postsSlice = createSlice({
           return post;
         });
         //Add any fetch posts to the posts array
-        state.posts = [ ...loadedPosts ];
-        
+        state.posts = [...loadedPosts];
       })
       .addCase(fetchPosts.rejected, (state, action) => {
         state.status = "failed";
         state.error = action.error.message;
+      })
+      .addCase(addNewPost.fulfilled, (state, action) => {
+        action.payload.userId = Number(action.payload.userId);
+        action.payload.date = new Date().toISOString();
+        action.payload.reactions = {
+          thumbsUp: 0,
+          thumbsDown: 0,
+          heart: 0,
+          party: 0,
+          cool: 0,
+        };
+        state.posts.push(action.payload)
       });
-      
   },
 });
 

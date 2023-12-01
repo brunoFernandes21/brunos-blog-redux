@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { postAdded } from "./postsSlice";
+import { addNewPost } from "./postsSlice";
 import { getAllUsers } from "../users/usersSlice";
 
 export const AddPostForm = () => {
@@ -9,6 +9,7 @@ export const AddPostForm = () => {
     content: "",
     userId: "",
   });
+  const [addRequestStatus, setAddRequestStatus] = useState("idle")
 
   const dispatch = useDispatch();
   const users = useSelector(getAllUsers);
@@ -23,18 +24,27 @@ export const AddPostForm = () => {
     });
   };
 
+  const formIsValid = [formData.title, formData.content, formData.userId].every(Boolean) && addRequestStatus === "idle";
+
   const handleSubmit = (event) => {
     event.preventDefault();
     const title = formData.title;
     const content = formData.content;
     const userId = formData.userId;
-    if (title && content) {
-      dispatch(postAdded(title, content, userId));
-      setFormData({ title: "", content: "", userId: "" });
+    if(formIsValid) {
+      try {
+        setAddRequestStatus("pending")
+        dispatch(addNewPost({ title, body: content, userId })).unwrap();
+        setFormData({ title: "", content: "", userId: "" });
+      } catch (error) {
+        console.error("Failed to save post", error);
+      } finally {
+        setAddRequestStatus("idle")
+      }
+      
     }
   };
 
-  const formIsValid = Boolean(formData.title) && Boolean(formData.content);
 
   const userOptions = users.map((user) => (
     <option key={user.id} value={user.id}>{user.name}</option>

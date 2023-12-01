@@ -30,7 +30,6 @@ export const PostsList = () => {
     content = <p>{error}</p>
   }
 
-
   return (
     <section className="post__section">
       <h2 className="font-bold text-xl text-white">Posts</h2>
