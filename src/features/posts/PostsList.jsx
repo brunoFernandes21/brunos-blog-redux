@@ -1,38 +1,40 @@
-import { useSelector } from "react-redux";
-import { allPosts } from "./postsSlice";
-import { Link } from "react-router-dom";
-import PostAuthor from "./PostAuthor";
-import TimeAgo from "./TimeAgo";
-import ReactionButtons from "./ReactionButtons";
+import { useSelector, useDispatch } from "react-redux";
+import { useEffect } from "react";
+
+import { getAllPosts, getPostStatus, getPostError, fetchPosts } from "./postsSlice";
+import PostsData from "./PostsData";
 
 export const PostsList = () => {
-  const posts = useSelector(allPosts);
-  // Sort posts in reverse chronological order by datetime string
-  const orderedPosts = posts
-    .slice()
-    .sort((a, b) => b.date.localeCompare(a.date));
+  const dispatch = useDispatch()
 
-  const renderedPosts = orderedPosts.map((post) => (
-    <article key={post.id} className="single__post text-slate-900">
-      <h3 className="font-bold text-lg">{post.title}</h3>
-      <p className="mt-2">{post.content.substring(0, 100)}</p>
-      <p className="mt-2">
-        By: <PostAuthor userId={post.user} />
-      </p>
-      <p className="mt-2">
-        Created: {post.date ? <TimeAgo timestamp={post.date} /> : "Unknow Date"}
-      </p>
-      <ReactionButtons post={post} />
-      <button className="font-bold border border-slate-300 p-2 mt-2 rounded hover:bg-blue-700 hover:text-white transition-all ease-in-out duration-500">
-        <Link to={`/posts/${post.id}`}>View Post</Link>
-      </button>
-    </article>
-  ));
+  const posts = useSelector(getAllPosts);
+  // console.log(posts);
+  const postStatus = useSelector(getPostStatus)
+  const error = useSelector(getPostError)
+
+  //get posts from redux store to display on screen
+  useEffect(() => {
+    if(postStatus === "idle") {
+      dispatch(fetchPosts())
+    }
+  }, [postStatus, dispatch])
+
+  let content
+  if(postStatus === "loading") {
+    content = <p>Loading...</p>;
+  } else if( postStatus === "succeeded") {
+      // Sort posts in reverse chronological order by datetime string
+    const orderedPosts = posts.slice().sort((a, b) => b.date.localeCompare(a.date))
+    content = orderedPosts.map(post => <PostsData key={post.id} post={post} />)
+  }else if(postStatus === "failed") {
+    content = <p>{error}</p>
+  }
+
 
   return (
     <section className="post__section">
       <h2 className="font-bold text-xl text-white">Posts</h2>
-      {renderedPosts}
+      {content}
     </section>
   );
 };

@@ -2,7 +2,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { postUpdated } from "./postsSlice";
 import { useState } from "react";
 import { useMatch } from "react-router-dom";
-import { allPosts } from "./postsSlice";
+import { getAllPosts } from "./postsSlice";
 import { useNavigate } from "react-router-dom";
 
 export const EditPostForm = () => {
@@ -13,7 +13,7 @@ export const EditPostForm = () => {
   let navigate = useNavigate()
 
   //find the post in state with the same id as the parameter
-  const post = useSelector(allPosts).find((post) => post.id === postId);
+  const post = useSelector(getAllPosts).find((post) => post.id === postId);
 
   const [formData, setFormData] = useState({
     title: post.title,

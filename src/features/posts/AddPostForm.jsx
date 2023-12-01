@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { postAdded } from "./postsSlice";
-import { allUsers } from "../users/usersSlice";
+import { getAllUsers } from "../users/usersSlice";
 
 export const AddPostForm = () => {
   const [formData, setFormData] = useState({
@@ -11,7 +11,7 @@ export const AddPostForm = () => {
   });
 
   const dispatch = useDispatch();
-  const users = useSelector(allUsers);
+  const users = useSelector(getAllUsers);
 
   const handleChange = (event) => {
     const { value, name } = event.target;

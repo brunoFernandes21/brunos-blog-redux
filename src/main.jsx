@@ -5,8 +5,10 @@ import "./index.css";
 import { Provider } from "react-redux";
 import store from "./redux/store.js"
 import { BrowserRouter as Router } from 'react-router-dom';
+import { fetchUsers } from "./features/users/usersSlice.js";
 
-
+//fetch users when app first loads
+store.dispatch(fetchUsers())
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
     <Router>
