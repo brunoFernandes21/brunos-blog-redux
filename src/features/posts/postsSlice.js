@@ -31,7 +31,7 @@ export const addNewPost = createAsyncThunk("post/addNewPost", async (body) => {
   }
 });
 
-//update single post
+//update post
 export const updatePost = createAsyncThunk(
   "posts/updatePost",
   async (body) => {
@@ -44,6 +44,19 @@ export const updatePost = createAsyncThunk(
     }
   }
 );
+
+//delete post
+export const deletePost = createAsyncThunk("posts/deletePost", async (body) => {
+  const { id } = body
+  try {
+    const response = await axios.delete(`${POSTS_URL}/${id}`)
+    //this needs to return the body so that I can grab the id and remove it from state
+    if(response.status === 200) return body
+    return `${response.status}: ${response.text}`
+  } catch (error) {
+    return error.message
+  }
+})
 
 const postsSlice = createSlice({
   name: "posts",
@@ -102,6 +115,11 @@ const postsSlice = createSlice({
       })
       .addCase(updatePost.fulfilled, (state, action) => {
         const { id, userId, title, body, reactions } = action.payload;
+        if(!id) {
+          console.log("Unable to delete post")
+          console.log(action.payload)
+          return
+        }
         const existingPost = state.posts.find((post) => post.id === id);
         if (existingPost) {
           existingPost.id = id
@@ -111,7 +129,17 @@ const postsSlice = createSlice({
           existingPost.reactions = reactions
           existingPost.date = new Date().toISOString();
         }
-      });
+      })
+      .addCase(deletePost.fulfilled, (state, action) => {
+        if(!action.payload.id) {
+          console.log("Unable to delete post")
+          console.log(action.payload)
+          return
+        }
+        const { id } = action.payload
+        const filteredPosts = state.posts.filter(post => post.id !== id)
+        state.posts = filteredPosts
+      })
   },
 });
 

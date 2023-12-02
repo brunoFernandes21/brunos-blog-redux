@@ -1,20 +1,39 @@
-import { useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
+import { useParams, useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 import TimeAgo from "./TimeAgo";
+import { FaEdit, FaTrashAlt } from "react-icons/fa";
 
-import {
-  getPostById
-} from "./postsSlice";
+import { getPostById, deletePost } from "./postsSlice";
 import PostAuthor from "./PostAuthor";
 import ReactionButtons from "./ReactionButtons";
+import { useState } from "react";
 
 export const SinglePostPage = () => {
   //get the id from matched url from router (useParams)
   const { postId } = useParams();
+  const dispatch = useDispatch()
+  const navigate = useNavigate()
+  const [addRequestStatus, setAddRequestStatus] = useState("idle")
 
   // use the selector to get post by id from store
-  const post = useSelector((state) => getPostById(state, Number(postId)))
+  const post = useSelector((state) => getPostById(state, Number(postId)));
+
+  const onDeletePost = () => {
+    let text = "Are you sure you want to delete this post?"
+    if(confirm(text) == true){
+      try {
+        setAddRequestStatus("pending")
+        dispatch(deletePost({id: post.id})).unwrap()
+      navigate("/")
+      } catch (error) {
+        console.error("Unable to delete post", error)
+      } finally {
+        setAddRequestStatus("idle")
+      }
+      
+    }
+  }
 
   if (!post) {
     return (
@@ -32,13 +51,21 @@ export const SinglePostPage = () => {
       <article className="mb-10 p-5 rounded-md shadow-md shadow-white bg-white   text-slate-900">
         <h2 className="font-bold text-lg">{post.title}</h2>
         <p className="italic">
-        by <PostAuthor userId={post.userId} /> . <TimeAgo timestamp={post.date} />
+          by <PostAuthor userId={post.userId} /> .{" "}
+          <TimeAgo timestamp={post.date} />
         </p>
         <p className="mt-2">{post.body}</p>
         <ReactionButtons post={post} />
-        <button className="font-bold border border-slate-300 p-2 mt-2 rounded hover:bg-blue-700 hover:text-white transition-all ease-in-out duration-500">
-          <Link to={`/posts/edit-post/${post.id}`}>Edit Post</Link>
+        <div className="flex items-center gap-6">
+        <button className="mt-2 p-2 text-slate-500 hover:bg-blue-600 bg-blue-200 rounded-full hover:text-white transition-all ease-in-out duration-500">
+          <Link to={`/posts/edit-post/${post.id}`}>
+            <FaEdit className="text-2xl" />
+          </Link>
         </button>
+        <button onClick={onDeletePost} className="mt-2 p-2 text-slate-500 bg-red-200 hover:bg-red-600 rounded-full hover:text-white transition-all ease-in-out duration-500">
+          <FaTrashAlt className="text-2xl"/>
+        </button>
+        </div>
       </article>
       <Link
         to="/"
