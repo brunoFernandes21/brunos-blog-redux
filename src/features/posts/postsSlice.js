@@ -12,7 +12,7 @@ const initialState = {
 };
 
 //fetch posts using AsyncThunk
-export const fetchPosts = createAsyncThunk("posts/fetchPoss", async () => {
+export const fetchPosts = createAsyncThunk("posts/fetchPosts", async () => {
   try {
     const response = await axios.get(POSTS_URL);
     return response.data;
@@ -31,51 +31,33 @@ export const addNewPost = createAsyncThunk("post/addNewPost", async (body) => {
   }
 });
 
+//update single post
+export const updatePost = createAsyncThunk(
+  "posts/updatePost",
+  async (body) => {
+    const { id } = body
+    try {
+      const response = await axios.patch(`${POSTS_URL}/${id}`, body);
+      return response.data;
+    } catch (error) {
+      return error.message;
+    }
+  }
+);
+
 const postsSlice = createSlice({
   name: "posts",
   initialState,
   reducers: {
     reactionAddedAndRemoved(state, action) {
       const { postId, reaction } = action.payload;
-      const postExist = state.posts.find((post) => post.id === postId);
-      if (postExist) {
-        if (postExist.reactions[reaction] > 0) {
-          postExist.reactions[reaction]--;
+      const existingPost = state.posts.find((post) => post.id === postId);
+      if (existingPost) {
+        if (existingPost.reactions[reaction] > 0) {
+          existingPost.reactions[reaction]--;
         } else {
-          postExist.reactions[reaction]++;
+          existingPost.reactions[reaction]++;
         }
-      }
-    },
-
-    postAdded: {
-      reducer(state, action) {
-        state.posts.push(action.payload);
-      },
-      prepare(title, content, userId) {
-        return {
-          payload: {
-            id: nanoid(),
-            date: new Date().toISOString(),
-            title,
-            content,
-            user: userId,
-            reactions: {
-              thumbsUp: 0,
-              thumbsDown: 0,
-              heart: 0,
-              party: 0,
-              cool: 0,
-            },
-          },
-        };
-      },
-    },
-    postUpdated(state, action) {
-      const { id, title, content } = action.payload;
-      const postExists = state.posts.find((post) => post.id === id);
-      if (postExists) {
-        postExists.title = title;
-        postExists.body = content;
       }
     },
   },
@@ -99,7 +81,7 @@ const postsSlice = createSlice({
           };
           return post;
         });
-        //Add any fetch posts to the posts array
+        //set posts to new array of fetched posts
         state.posts = [...loadedPosts];
       })
       .addCase(fetchPosts.rejected, (state, action) => {
@@ -117,6 +99,18 @@ const postsSlice = createSlice({
           cool: 0,
         };
         state.posts.push(action.payload);
+      })
+      .addCase(updatePost.fulfilled, (state, action) => {
+        const { id, userId, title, body, reactions } = action.payload;
+        const existingPost = state.posts.find((post) => post.id === id);
+        if (existingPost) {
+          existingPost.id = id
+          existingPost.userId = userId
+          existingPost.title = title
+          existingPost.body = body
+          existingPost.reactions = reactions
+          existingPost.date = new Date().toISOString();
+        }
       });
   },
 });

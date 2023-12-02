@@ -29,15 +29,12 @@ export const SinglePostPage = () => {
 
   return (
     <section className="max-w-[1120px] mx-auto">
-      <article className="single__post mb-8 text-slate-900">
+      <article className="mb-10 p-5 rounded-md shadow-md shadow-white bg-white   text-slate-900">
         <h2 className="font-bold text-lg">{post.title}</h2>
+        <p className="italic">
+        by <PostAuthor userId={post.userId} /> . <TimeAgo timestamp={post.date} />
+        </p>
         <p className="mt-2">{post.body}</p>
-        <p className="mt-2">
-          <TimeAgo timestamp={post.date} />
-        </p>
-        <p className="mt-2">
-          Author: <PostAuthor userId={post.userId} />
-        </p>
         <ReactionButtons post={post} />
         <button className="font-bold border border-slate-300 p-2 mt-2 rounded hover:bg-blue-700 hover:text-white transition-all ease-in-out duration-500">
           <Link to={`/posts/edit-post/${post.id}`}>Edit Post</Link>

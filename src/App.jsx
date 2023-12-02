@@ -14,10 +14,10 @@ function App() {
       <Navbar />
       <section className="app">
         <Routes>
-          <Route exact path="/" element={<Home />} />
-          <Route exact path="/posts/:postId" element={<SinglePostPage />} />
-          <Route exact path="/posts/edit-post/:postId" element={<EditPostForm/>} />
-          <Route exact path="*" element={<NotFound />} />
+          <Route path="/" element={ <Home />} />
+          <Route path="posts/:postId" element={ <SinglePostPage />} />
+          <Route path="posts/edit-post/:postId" element={ <EditPostForm/>} />
+          <Route path="*" element={ <NotFound />} />
         </Routes>
       </section>
     </main>
