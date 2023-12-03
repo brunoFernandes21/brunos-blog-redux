@@ -39,5 +39,5 @@ export const PostsList = () => {
     content = <p>{error}</p>;
   }
 
-  return <section className="flex flex-col gap-5">{content}</section>;
+  return <section className="flex flex-col gap-5 max-w-[1120px] mx-auto">{content}</section>;
 };
