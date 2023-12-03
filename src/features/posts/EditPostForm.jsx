@@ -143,7 +143,7 @@ export const EditPostForm = () => {
           <Link
             to={`/posts/${post.id}`}
           >
-            Go back to home
+            Go back
           </Link>
         </button>
       </form>

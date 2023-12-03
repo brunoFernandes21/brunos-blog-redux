@@ -9,6 +9,7 @@ import { EditPostForm } from "./features/posts/EditPostForm";
 import { useState } from "react";
 import UsersList from "./features/users/UsersList";
 import { PostsList } from "./features/posts/PostsList";
+import SingleUserPage from "./features/users/SingleUserPage";
 
 function App() {
   const [showForm, setShowForm] = useState()
@@ -23,6 +24,7 @@ function App() {
           <Route path="posts/:postId" element={ <SinglePostPage />} />
           <Route path="posts/edit-post/:postId" element={ <EditPostForm/>} />
           <Route path="users" element={<UsersList/>}/>
+          <Route path="users/:userId" element={<SingleUserPage/>}/>
           <Route path="*" element={ <NotFound />} />
         </Routes>
       </section>
