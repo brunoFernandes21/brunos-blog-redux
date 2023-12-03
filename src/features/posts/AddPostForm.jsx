@@ -2,9 +2,8 @@ import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { addNewPost } from "./postsSlice";
 import { getAllUsers } from "../users/usersSlice";
-import { IoCloseCircle } from "react-icons/io5";
 
-export const AddPostForm = ( { setShowForm }) => {
+export const AddPostForm = () => {
   const [formData, setFormData] = useState({
     title: "",
     content: "",
@@ -26,9 +25,7 @@ export const AddPostForm = ( { setShowForm }) => {
   };
 
   const formIsValid = [formData.title, formData.content, formData.userId].every(Boolean) && addRequestStatus === "idle";
-  const toggleForm = () => {
-    setShowForm(false)
-  }
+
   const handleSubmit = (event) => {
     event.preventDefault();
     const title = formData.title;
@@ -54,7 +51,6 @@ export const AddPostForm = ( { setShowForm }) => {
   return (
     <section className="form__section relative bg-white text-slate-900">
       <h3 className="text-xl font-bold">Add a New Post</h3>
-      <IoCloseCircle onClick={toggleForm} className="right-2 top-2 text-2xl cursor-pointer absolute "/>
       <form onSubmit={handleSubmit} className="">
         <div>
           <label htmlFor="title">Title</label>

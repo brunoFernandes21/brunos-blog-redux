@@ -1,9 +1,7 @@
 import { Link } from "react-router-dom";
 
-export const Navbar = ( { setShowForm }) => {
-  const toggleForm = () => {
-    setShowForm(true)
-  }
+export const Navbar = () => {
+
   // className="sticky top-0 z-10" to make nav fixed at top
   return (
     <nav>
@@ -15,9 +13,8 @@ export const Navbar = ( { setShowForm }) => {
             </Link>
           </h1>
         </div>
-        <div className="flex gap-4">
+        <div className="flex gap-8">
           <Link to="/posts" className="font-bold text-lg hover:text-slate-300 transition-all ease-in-out">Posts</Link>
-          <button onClick={toggleForm} className="font-bold text-lg hover:text-slate-300 transition-all ease-in-out">New Post</button>
           <Link to="/users" className="font-bold text-lg hover:text-slate-300 transition-all ease-in-out">Users</Link>
         </div>
       </section>

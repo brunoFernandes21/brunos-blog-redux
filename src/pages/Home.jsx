@@ -1,11 +1,11 @@
 import { PostsList } from "../features/posts/PostsList";
 import { AddPostForm } from "../features/posts/AddPostForm";
 
-export const Home = ({ showForm, setShowForm }) => {
+export const Home = () => {
   return (
     <section className="home">
       <PostsList />
-      {showForm && <AddPostForm setShowForm={setShowForm} />}
+      <AddPostForm />
     </section>
   );
 };

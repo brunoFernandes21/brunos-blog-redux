@@ -10,7 +10,7 @@ const PostsData = ({ post }) => {
       <h3 className="font-bold text-lg">
         {title.charAt(0).toUpperCase() + title.slice(1)}
       </h3>
-      <p className="italic">
+      <p className="italic text-sm md:text-base">
         by <PostAuthor userId={userId} /> .{" "}
         {date ? <TimeAgo timestamp={date} /> : "Unknow Date"}
       </p>

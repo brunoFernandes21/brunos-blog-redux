@@ -105,6 +105,7 @@ export const EditPostForm = () => {
           <input
             type="text"
             name="title"
+            id="title"
             value={formData.title}
             onChange={handleChange}
             placeholder="Update post title"
@@ -126,6 +127,7 @@ export const EditPostForm = () => {
           <label htmlFor="content">Content</label>
           <textarea
             name="content"
+            id="content"
             value={formData.content}
             placeholder=""
             onChange={handleChange}
