@@ -3,8 +3,14 @@ import ReactionButtons from "./ReactionButtons";
 import TimeAgo from "./TimeAgo";
 import { Link } from "react-router-dom";
 
-const PostsData = ({ post }) => {
-  const { id, userId, body, title, date } = post;
+import { selectPostsById } from "./postsSlice";
+import { useSelector } from "react-redux";
+
+
+const PostsData = ({ postId }) => {
+
+  const post = useSelector((state) => selectPostsById(state, postId))
+  const { id, userId, title, date, body } = post;
   return (
     <article className="p-5 rounded-md shadow-md shadow-white bg-white text-slate-900">
       <h3 className="font-bold text-lg">

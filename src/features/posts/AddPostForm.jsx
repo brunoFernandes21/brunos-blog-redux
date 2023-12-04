@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { addNewPost } from "./postsSlice";
-import { getAllUsers } from "../users/usersSlice";
+import { selectAllUsers } from "../users/usersSlice";
 
 export const AddPostForm = () => {
   const [formData, setFormData] = useState({
@@ -12,7 +12,7 @@ export const AddPostForm = () => {
   const [addRequestStatus, setAddRequestStatus] = useState("idle")
 
   const dispatch = useDispatch();
-  const users = useSelector(getAllUsers);
+  const users = useSelector(selectAllUsers);
 
   const handleChange = (event) => {
     const { value, name } = event.target;
@@ -25,7 +25,7 @@ export const AddPostForm = () => {
   };
 
   const formIsValid = [formData.title, formData.content, formData.userId].every(Boolean) && addRequestStatus === "idle";
-
+  
   const handleSubmit = (event) => {
     event.preventDefault();
     const title = formData.title;

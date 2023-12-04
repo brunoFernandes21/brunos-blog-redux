@@ -2,17 +2,18 @@ import { useSelector, useDispatch } from "react-redux";
 import { useEffect } from "react";
 
 import {
-  getAllPosts,
+  selectPostIds,
   getPostStatus,
   getPostError,
   fetchPosts,
 } from "./postsSlice";
+
 import PostsData from "./PostsData";
 
 export const PostsList = () => {
   const dispatch = useDispatch();
 
-  const posts = useSelector(getAllPosts);
+  const orderedPostsIds = useSelector(selectPostIds);
   // console.log(posts);
   const postStatus = useSelector(getPostStatus);
   const error = useSelector(getPostError);
@@ -28,12 +29,8 @@ export const PostsList = () => {
   if (postStatus === "loading") {
     content = <p>Loading...</p>;
   } else if (postStatus === "succeeded") {
-    // Sort posts in reverse chronological order by datetime string
-    const orderedPosts = posts
-      .slice()
-      .sort((a, b) => b.date.localeCompare(a.date));
-    content = orderedPosts.map((post) => (
-      <PostsData key={post.id} post={post} />
+    content = orderedPostsIds.map((postId) => (
+      <PostsData key={postId} postId={postId} />
     ));
   } else if (postStatus === "failed") {
     content = <p>{error}</p>;

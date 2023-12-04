@@ -1,15 +1,18 @@
-import { createSlice, nanoid, createAsyncThunk } from "@reduxjs/toolkit";
+import { createSlice, createAsyncThunk, createEntityAdapter } from "@reduxjs/toolkit";
 import { sub } from "date-fns";
 import axios from "axios";
 
 const POSTS_URL = "https://jsonplaceholder.typicode.com/posts";
 
-//state object
-const initialState = {
-  posts: [],
+const postsAdapter = createEntityAdapter({
+  sortComparer: (a, b) => b.date.localeCompare(a.date)
+})
+
+//initial state object
+const initialState = postsAdapter.getInitialState({
   status: "idle", //idle or loading or succeeded or failed
   error: null,
-};
+})
 
 //fetch posts using AsyncThunk
 export const fetchPosts = createAsyncThunk("posts/fetchPosts", async () => {
@@ -64,7 +67,7 @@ const postsSlice = createSlice({
   reducers: {
     reactionAddedAndRemoved(state, action) {
       const { postId, reaction } = action.payload;
-      const existingPost = state.posts.find((post) => post.id === postId);
+      const existingPost = state.entities[postId]
       if (existingPost) {
         if (existingPost.reactions[reaction] > 0) {
           existingPost.reactions[reaction]--;
@@ -94,8 +97,9 @@ const postsSlice = createSlice({
           };
           return post;
         });
-        //set posts to new array of fetched posts
-        state.posts = [...loadedPosts];
+        // Add any fetched posts to the array
+        // Use the `upsertMany` reducer as a mutating update utility
+        postsAdapter.upsertMany(state, loadedPosts)
       })
       .addCase(fetchPosts.rejected, (state, action) => {
         state.status = "failed";
@@ -111,7 +115,7 @@ const postsSlice = createSlice({
           party: 0,
           cool: 0,
         };
-        state.posts.push(action.payload);
+        postsAdapter.addOne(state, action.payload);
       })
       .addCase(updatePost.fulfilled, (state, action) => {
         const { id, userId, title, body, reactions } = action.payload;
@@ -120,7 +124,7 @@ const postsSlice = createSlice({
           console.log(action.payload)
           return
         }
-        const existingPost = state.posts.find((post) => post.id === id);
+        const existingPost = state.entities[id];
         if (existingPost) {
           existingPost.id = id
           existingPost.userId = userId
@@ -137,17 +141,22 @@ const postsSlice = createSlice({
           return
         }
         const { id } = action.payload
-        const filteredPosts = state.posts.filter(post => post.id !== id)
-        state.posts = filteredPosts
+        postsAdapter.removeOne(state, id)
       })
   },
 });
 
-export const { postAdded, postUpdated, reactionAddedAndRemoved } =
+export const { reactionAddedAndRemoved } =
   postsSlice.actions;
-export const getAllPosts = (state) => state.posts.posts;
+  // Export the customized selectors for this adapter using `getSelectors`
+  export const {
+    selectAll: selectAllPosts,
+    selectById: selectPostsById,
+    selectIds: selectPostIds,
+    // Pass in a selector that returns the posts slice of state
+  } = postsAdapter.getSelectors(state => state.posts)
+
 export const getPostStatus = (state) => state.posts.status;
 export const getPostError = (state) => state.posts.error;
-export const getPostById = (state, postId) =>
-  state.posts.posts.find((post) => post.id === postId);
+
 export default postsSlice.reducer;

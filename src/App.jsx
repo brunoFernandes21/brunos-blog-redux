@@ -9,7 +9,7 @@ import { Navbar } from "./pages/Navbar";
 import { EditPostForm } from "./features/posts/EditPostForm";
 import UsersList from "./features/users/UsersList";
 import { PostsList } from "./features/posts/PostsList";
-import SingleUserPage from "./features/users/SingleUserPage";
+import UserPage from "./features/users/UserPage";
 
 function App() {
   return (
@@ -23,7 +23,7 @@ function App() {
           <Route path="posts/:postId" element={ <SinglePostPage />} />
           <Route path="posts/edit-post/:postId" element={ <EditPostForm/>} />
           <Route path="users" element={<UsersList/>}/>
-          <Route path="users/:userId" element={<SingleUserPage/>}/>
+          <Route path="users/:userId" element={<UserPage/>}/>
           <Route path="*" element={ <NotFound />} />
         </Routes>
       </section>

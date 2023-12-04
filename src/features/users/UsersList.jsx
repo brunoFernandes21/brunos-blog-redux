@@ -1,16 +1,18 @@
 import React from "react";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import { getAllUsers } from "./usersSlice";
+import { selectAllUsers } from "./usersSlice";
 
 const UsersList = () => {
-  const users = useSelector(getAllUsers);
+  const users = useSelector(selectAllUsers);
 
   const renderedUsers = users.map((user) => {
     return (
-      <li key={user.id} className="flex justify-center font-bold bg-white rounded-md p-2 shadow-sm shadow-white transition-all duration-500 ease-in-out hover:scale-110">
-        <Link to={`/users/${user.id}`}>{user.name}</Link>
-      </li>
+      <Link key={user.id} to={`/users/${user.id}`}>
+        <li className="flex justify-center font-bold bg-white rounded-md p-2 shadow-sm shadow-white transition-all duration-500 ease-in-out hover:scale-110">
+          {user.name}
+        </li>
+      </Link>
     );
   });
 

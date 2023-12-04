@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import TimeAgo from "./TimeAgo";
 import { FaEdit, FaTrashAlt } from "react-icons/fa";
 
-import { getPostById, deletePost } from "./postsSlice";
+import { selectPostsById, deletePost } from "./postsSlice";
 import PostAuthor from "./PostAuthor";
 import ReactionButtons from "./ReactionButtons";
 import { useState } from "react";
@@ -17,7 +17,7 @@ export const SinglePostPage = () => {
   const [addRequestStatus, setAddRequestStatus] = useState("idle")
 
   // use the selector to get post by id from store
-  const post = useSelector((state) => getPostById(state, Number(postId)));
+  const post = useSelector((state) => selectPostsById(state, Number(postId)));
 
   const onDeletePost = () => {
     let text = "Are you sure you want to delete this post?"
@@ -45,11 +45,12 @@ export const SinglePostPage = () => {
       </section>
     );
   }
+  
 
   return (
     <section className="max-w-[1120px] mx-auto">
       <article className="mb-10 p-5 rounded-md shadow-md shadow-white bg-white   text-slate-900">
-        <h2 className="font-bold text-lg">{post.title}</h2>
+        <h2 className="font-bold text-lg">{post.title.charAt(0).toUpperCase() + post.title.slice(1)}</h2>
         <p className="italic">
           by <PostAuthor userId={post.userId} /> .{" "}
           <TimeAgo timestamp={post.date} />

@@ -2,9 +2,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { useState } from "react";
 import { useParams, useNavigate, Link } from "react-router-dom";
 
-import { getPostById } from "./postsSlice";
+import { selectPostsById } from "./postsSlice";
 import { updatePost } from "./postsSlice";
-import { getAllUsers } from "../users/usersSlice";
+import { selectAllUsers } from "../users/usersSlice";
 
 export const EditPostForm = () => {
   const { postId } = useParams();
@@ -13,9 +13,9 @@ export const EditPostForm = () => {
   let navigate = useNavigate();
 
   //get the right post from store based on the postId
-  const post = useSelector((state) => getPostById(state, Number(postId)));
+  const post = useSelector((state) => selectPostsById(state, Number(postId)));
   //get all users to display on the update form
-  const users = useSelector(getAllUsers);
+  const users = useSelector(selectAllUsers);
 
   const [formData, setFormData] = useState({
     title: post.title,
@@ -64,7 +64,7 @@ export const EditPostForm = () => {
     const title = formData.title;
     const content = formData.content;
     const userId = Number(formData.userId);
-    if (formIsValid && canSave()) {
+    if (formIsValid) {
       try {
         setAddRequestStatus("pending");
         dispatch(
